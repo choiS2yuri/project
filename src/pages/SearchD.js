@@ -4,6 +4,7 @@ import basedList from './../data/list'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
 import Sdetail from '../components/Sdetail'
+import { eachDayOfInterval } from 'date-fns'
 
 const Wrap = styled.div`
   width: 100%;
@@ -74,11 +75,17 @@ const ContentItem = styled.div`
     flex-basis: 100%;
   }
 `
+const Input = styled.input`
+  border: none;
+  right: 30%;
+`
 function SearchD() {
 
     const [monsters, setMonsters] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [copy, setCopy] = useState([]);
+    const [searchKeyword, setSearchKeyword] = useState("");
+
 
     useEffect(()=>{
       fetch("https://apis.data.go.kr/B551011/GoCamping/basedList?numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=project&serviceKey=hQ42F%2BSKq2L%2FUrlhNoGxv63elQn7W8CmL22xl6yXuGk%2BMz0zdU%2Frk2CIdCeX5%2BYPmg39K5QBYCeSgUyqtD7Qdg%3D%3D&_type=json")
@@ -89,9 +96,7 @@ function SearchD() {
     }); 
   },[]);
     
-  const handleInput = (e) => {
-      setSearchTerm(e.target.value);
-    };
+  
 
   useEffect(() => {
       setMonsters(
@@ -99,13 +104,16 @@ function SearchD() {
               (e) =>
                   e.facltNm.toLowerCase().includes(searchTerm.toLowerCase()) ||
                   e.addr1.includes(searchTerm) ||
-                  e.induty.toLowerCase().includes(searchTerm.toLowerCase())
-                  // e.firstImageUrl.includes(searchTerm) 
+                  e.induty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                  e.firstImageUrl.includes(searchTerm) 
           )
       );
+      setSearchKeyword()
   }, [searchTerm, copy]);
 
-
+  const handleInput = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
   return (    
   <>
@@ -113,7 +121,7 @@ function SearchD() {
         <Searchwrap>
           <SearchForm>
             <Searchbar>
-              <input type='text' placeholder='검색어를 입력하세요' onChange={handleInput}/>
+              <Input type='text' placeholder='검색어를 입력하세요' onChange={handleInput} />
               <button>검색하기</button>
             </Searchbar>
           </SearchForm>
@@ -122,15 +130,7 @@ function SearchD() {
         <Content >          
           <ContentItem>
             {
-            copy && copy.map((e,i)=>{
-              return(
-                <ul key={i}>
-                  {/* <li>{e.firstImageUrl}</li> */}
-                  <li>{e.facltNm}</li>
-                  <li>{e.addr1}</li>
-                  <li>{e.induty}</li>
-                </ul>
-              )})
+              
             }
           </ContentItem>
         </Content>

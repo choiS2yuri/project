@@ -20,10 +20,11 @@ const Wrapper = styled.div`
 `
 const SearchContent = styled.div`
   max-width: 1280px;
-  height: 40px;
+  height: 70
+  px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: nowrap;
   border-radius: 5px;
   align-items: center;
@@ -44,34 +45,54 @@ const NavLinkWrap = styled.div`
   background-color: #98eecc;
   color: #fff;
   font-weight: bold;
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 10px 10px 0;
   font-size: 18px;
   right: 0;
   flex-basis: 20%;
   height: 100%;
   a{
-    >svg{   
+    display: flex;
+    height: 100%;
+    align-items: center;
+    p{
       width: 100%;
+      font-size: 30px;
       margin: 10px auto;
-      font-weight: bold;
+      text-align: center;
+      font-weight: 800;
+      color: #fff;
     }
   }
 `
 
-const MSearch = styled.div`
+const Input = styled.input`
+  border: none;
+  right: 30%;
+`
 
+const Select = styled.select`
+  font-size: 24px;
+  font-weight: bold;
 `
 // ${scrollPosition > 500 ? "block" : "hidden"}`}
 function Search() {
   const [dateRange, setDateRange] = useState([null, null]);
   const [startDate, endDate] = dateRange;
-  const [data, setData] = useState("전체");
-  const [alldonm, setAllDonm] = useState("");
+  const [alldonm, setAllDonm] = useState([]);
   const [donm, setDonm] = useState("")
   const [ischoice, setIsChoice] = useState([null,null]);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [Selected, setSelected] = useState("");
+  const [userInput, setUserInput] = useState('');
+
+  const getValue = (e) => {
+    setUserInput(e.target.value)};
+  const searched = alldonm.filter((item) =>
+    item.facltNm.includes(userInput)
+  );
+
+
   const handleSelect = (e) => {
     setSelected(e.target.value);
   };
@@ -98,9 +119,9 @@ function Search() {
       .then((res) =>{return res.json()})
       .then((data)=> {
         setDonm(data.response.body.items.item)
+        setAllDonm(data.response.body.items.item);
       }); 
     },[]);
-    console.log(data)
     const [optiondonmSelect, setOptionDonmSelect] = useState("");
     const optionDonm = (e) =>{
         const donmValue = e.target.value
@@ -113,12 +134,10 @@ function Search() {
         } 
       }
     
-    const FilterData = donm && donm.filter(e =>{
-      return
-     })  
-
-    // const Filter = [...new Set( alldonm.map(e => e.doNm))];
-
+      const FilterData = donm && donm.filter(e =>{
+        return donm === "전체" || donm === e.doNm
+       })
+       const Filterdonm = [...new Set(alldonm && alldonm.map(e=>e.doNm).sort())];
   return (
     <>
       <Wrap>
@@ -141,20 +160,15 @@ function Search() {
       {/* 유리써치 */}
         <Wrapper>
           <SearchContent>
-            <select  onChange={optionDonm} className='text-[24px]  font-bold'>
-              <option value="전체" >전체</option>
+            <Select  onChange={optionDonm}>
+              <option value="전체">전체</option>
                 {
-                   donm && donm.map((e,i) =>{
+                   Filterdonm.map((e,i) =>{
                     return(
-                      <option key={i} value={e.doNm}>{e.doNm}</option>)
+                      <option key={i}>{e}</option>)
                   })
-                  // donm && Filter1.map((e,i)=>{
-                  //   return(
-                  //     <option key={i} value={e.doNm}>{e.doNm}</option>
-                  //   )
-                  // })
                 }
-            </select>
+            </Select>
             <StyleDate
               locale={ko}
               selectsRange={true}
@@ -166,10 +180,11 @@ function Search() {
               minDate={subDays(new Date(), 0)}
               maxDate={addDays(new Date(), 300)}
               monthsShown={2} />
-            <input type="text" placeholder='검색어를 입력하세요' className='  border-none right-[30%]' onChange={handleSelect} />
+            <Input type='text' placeholder='검색어를 입력하세요' onChange={getValue} />
             <NavLinkWrap>
               <NavLink to='/searchd'>
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
+                <p>검색하기</p>
               </NavLink>
             </NavLinkWrap>
           </SearchContent>
