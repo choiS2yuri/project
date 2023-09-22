@@ -1,9 +1,9 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import Search from './components/Search';
-
 import Main from './pages/Main';
-import Sdetail from './components/Sdetail';
+import Search from './pages/Search';
+import Test from './pages/Test';
+import SearchD from './pages/SearchD';
 
 
 function App() {
@@ -13,7 +13,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Main/>} />
         <Route path='/search' element={<Search />} />
-        <Route path='/sdetail' element={<Sdetail />} />
+        <Route path='/searchd' element={<SearchD />} />
+        <Route path='/test' element={<Test />} />
       </Routes>
     </>
 

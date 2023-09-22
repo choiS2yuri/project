@@ -22,11 +22,14 @@ const SearchForm = styled.form`
     flex-wrap: wrap;
 `
 const Searchbar = styled.div`
-    all: unset;
     height: 45px;
     width: 100%;
     margin: 0 auto;
 `
+
+
+
+
 const SearchLine = styled.div`
   margin: 40px auto;
   width: 1280px;
@@ -93,37 +96,18 @@ const ContentItem = styled.div`
 // `
 
 
-function Sdetail() {
+function Test() {
 
-  // const [data, setData] =useState(basedList);
-
-    const [monsters, setMonsters] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [copy, setCopy] = useState([]);
-
-    useEffect(()=>{
-      fetch("https://apis.data.go.kr/B551011/GoCamping/basedList?numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=project&serviceKey=hQ42F%2BSKq2L%2FUrlhNoGxv63elQn7W8CmL22xl6yXuGk%2BMz0zdU%2Frk2CIdCeX5%2BYPmg39K5QBYCeSgUyqtD7Qdg%3D%3D&_type=json")
-    .then((res) =>{return res.json()})
-    .then((data)=> {
-      setMonsters(data.response.body.items.item)
-      setCopy(data.response.body.items.item)
-    }); 
-  },[]);
-    
-  const handleInput = (e) => {
-      setSearchTerm(e.target.value);
-    };
-
-  useEffect(() => {
-      setMonsters(
-          copy.filter(
-              (e) =>
-                  e.facltNm.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                  e.addr1.includes(searchTerm) ||
-                  e.induty.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-      );
-  }, [searchTerm, copy]);
+  const [data, setData] =useState(basedList);
+ 
+// const dataFilter = data.filter(e =>{
+//     if(job === "전체"){
+//       return e.job
+//   }else{
+//       return e.job === job
+//   }
+//   return e.job
+// })
 
   return (
     <>
@@ -131,14 +115,18 @@ function Sdetail() {
         <Searchwrap>
           <SearchForm>
             <Searchbar>
-              <input type='text' placeholder='검색어를 입력하세요' onChange={handleInput}/>
+              <input type='text' placeholder='검색어를 입력하세요'></input>
+              <button>검색하기</button>
+            </Searchbar>
+            <Searchbar>
+              <input type='text' placeholder='검색어를 입력하세요'></input>
               <button>검색하기</button>
             </Searchbar>
           </SearchForm>
         </Searchwrap>
         <SearchLine />
-        <Content >
-          {/* {
+        <Content>
+          {
             data && data.map((e,i)=>{
               return(
                 <ContentItem key={i}>
@@ -152,15 +140,6 @@ function Sdetail() {
                 </ContentItem>
               )
             })
-          } */}
-          {
-            copy && copy.map((e,i)=>{
-              return(
-                <ContentItem key={i}>
-                  <li>{e.facltNm}</li>
-                </ContentItem>
-              )
-            })
           }
         </Content>
       </Wrap>
@@ -168,4 +147,4 @@ function Sdetail() {
   )
 }
 
-export default Sdetail
+export default Test

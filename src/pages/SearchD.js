@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import basedList from './../data/list'
 import { NavLink } from 'react-router-dom'
 import axios from 'axios'
+import Sdetail from '../components/Sdetail'
 
 const Wrap = styled.div`
   width: 100%;
@@ -43,18 +44,22 @@ const Content = styled.div`
 const ContentItem = styled.div`
   flex-basis: 100%;
   border: 1px solid #ddd; border-radius: 5px;
-  padding: 20px; box-sizing: border-box; cursor: pointer;
+  /* display: flex; justify-content: start; */
   /* white-space: break-spaces; //줄이 길어지면 자동으로 줄바꿈 */
-  display: flex; justify-content: start;
   img{
     width: 20%; display: block; 
     margin-bottom:24px; position: relative;}
   ul{
-    margin: 0 0 0 20px;
+    flex-basis: 100%;
+    border: 1px solid #ddd; border-radius: 5px;
+    list-style: none;
+    margin: 20px 20px; box-sizing: border-box; cursor: pointer;
+    border: 1px solid #ddd;
+    
     li{
       width: auto;
+      
       span{
-        width: auto;
         font-weight: bold;
         margin-bottom: 20px;
         font-size: 20px;
@@ -69,33 +74,7 @@ const ContentItem = styled.div`
     flex-basis: 100%;
   }
 `
-// const Category = styled.div`
-//   width: 100%;
-//   margin-bottom: 1.2%;
-//   ul{
-//     max-width: 1200px;
-//     margin: 0 auto;
-//     display: flex;
-//     flex-wrap: wrap; justify-content: space-between;
-//     li{
-//       border: 1px solid #ddd;
-//       padding: 5px 20px;
-//       border-radius: 5px; cursor: pointer;
-//       background-color: ${(props) => props.theme.colors.ContentBg};
-//       color: ${(props) => props.theme.colors.Color};
-//       &.on{
-//         background-color: lightyellow;
-//         font-weight: bold;
-//         color: #000;
-//       }
-//     }
-//     }
-// `
-
-
-function Sdetail() {
-
-  // const [data, setData] =useState(basedList);
+function SearchD() {
 
     const [monsters, setMonsters] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
@@ -121,12 +100,15 @@ function Sdetail() {
                   e.facltNm.toLowerCase().includes(searchTerm.toLowerCase()) ||
                   e.addr1.includes(searchTerm) ||
                   e.induty.toLowerCase().includes(searchTerm.toLowerCase())
+                  // e.firstImageUrl.includes(searchTerm) 
           )
       );
   }, [searchTerm, copy]);
 
-  return (
-    <>
+
+
+  return (    
+  <>
       <Wrap>
         <Searchwrap>
           <SearchForm>
@@ -137,35 +119,24 @@ function Sdetail() {
           </SearchForm>
         </Searchwrap>
         <SearchLine />
-        <Content >
-          {/* {
-            data && data.map((e,i)=>{
-              return(
-                <ContentItem key={i}>
-                  <img src={e.firstImageUrl} alt={e.facltNm}></img>
-                  <ul>
-                    <li><span>{e.facltNm}</span></li>
-                    <li>주소 : {e.addr1}</li>
-                    <li>종류 : {e.induty}</li>
-                    <li >사이트 : {e.homepage}</li>
-                  </ul>
-                </ContentItem>
-              )
-            })
-          } */}
-          {
+        <Content >          
+          <ContentItem>
+            {
             copy && copy.map((e,i)=>{
               return(
-                <ContentItem key={i}>
+                <ul key={i}>
+                  {/* <li>{e.firstImageUrl}</li> */}
                   <li>{e.facltNm}</li>
-                </ContentItem>
-              )
-            })
-          }
+                  <li>{e.addr1}</li>
+                  <li>{e.induty}</li>
+                </ul>
+              )})
+            }
+          </ContentItem>
         </Content>
       </Wrap>
     </>
   )
 }
 
-export default Sdetail
+export default SearchD
