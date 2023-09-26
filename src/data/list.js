@@ -25,7 +25,7 @@ const data = [
         "mapX": "127.5112565",
         "mapY": "37.7278127",
         "direction": "울양양고속도로 강촌IC에서 엘리시안강촌 방면으로 30분가량 달리면 도착",
-        "tel": "1522-1861-",
+        "tel": "1522-1861",
         "homepage": "http://outofpark.com/main/",
         "resveUrl": "",
         "resveCl": "온라인실시간예약",

@@ -1,9 +1,9 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import Main from './pages/Main';
 import Search from './pages/Search';
 import Test from './pages/Test';
 import SearchD from './pages/SearchD';
+import Descpage from './pages/Descpage';
 
 
 function App() {
@@ -11,10 +11,10 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path='/' element={<Main/>} />
-        <Route path='/search' element={<Search />} />
-        <Route path='/searchd' element={<SearchD />} />
+        <Route path='/' element={<Search />} />
+        <Route path='/searchd/' element={<SearchD />} />
         <Route path='/test' element={<Test />} />
+        <Route path='/searchd/desc/:seq' element={<Descpage />} />
       </Routes>
     </>
 

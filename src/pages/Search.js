@@ -20,8 +20,7 @@ const Wrapper = styled.div`
 `
 const SearchContent = styled.div`
   max-width: 1280px;
-  height: 70
-  px;
+  height: 70px;
   margin: 0 auto;
   display: flex;
   justify-content: center;
@@ -74,6 +73,39 @@ const Select = styled.select`
   font-size: 24px;
   font-weight: bold;
 `
+const Mwrap = styled.div`
+  z-index: 50; background-color: #fff; 
+  padding-top: 5px; width: 100%; height: 300px;
+  position: fixed; top: 0; display: flex; justify-content: space-around;
+`
+const Mwrapper = styled.div`
+   width: 70%; height:40px;
+   display: flex; justify-content: space-between; flex-wrap: nowrap; border-radius: 10px;
+   align-items: center;
+`
+const MinputBox = styled.div`
+  flex-basis: 3/4; 
+  border: 1px solid #ddd; height: 100%;
+  border-radius: 5px;
+  >input{
+    border: none;
+    height: 100%;
+  }
+`
+const MbuttonBox = styled.div`
+  flex-basis: 1/4;
+  border: 1px solid #ddd; height: 100%;
+  border-radius: 5px;
+  >button{
+    border: 1px solid #ddd;
+    background-color: #98eecc;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 25px;
+    right: 0; width: 100%; height: 100%;
+  }
+`
 // ${scrollPosition > 500 ? "block" : "hidden"}`}
 function Search() {
   const [dateRange, setDateRange] = useState([null, null]);
@@ -85,34 +117,26 @@ function Search() {
   // const [page, setPage] = useState(1);
   const [Selected, setSelected] = useState("");
   const [userInput, setUserInput] = useState('');
+  const [optiondonmSelect, setOptionDonmSelect] = useState("");
 
-  const getValue = (e) => {
-    setUserInput(e.target.value)};
-  const searched = alldonm.filter((item) =>
-    item.facltNm.includes(userInput)
-  );
-
-
-  const handleSelect = (e) => {
-    setSelected(e.target.value);
-  };
+  // const getValue = (e) => {
+  //   setUserInput(e.target.value)};
 
 
     const updateScroll = () => {
         setScrollPosition(window.scrollY || document.documentElement.scrollTop);
     };
+    
+        useEffect(() => {
+            window.addEventListener("scroll", updateScroll);
+        }, []);
+    const searched = alldonm.filter((item) =>
 
-    useEffect(() => {
-        window.addEventListener("scroll", updateScroll);
-    }, []);
+      item.facltNm.includes(userInput)
+    );
 
-    // useEffect(()=>{
-    //   fetch("https://apis.data.go.kr/B551011/GoCamping/basedList?serviceKey=hQ42F%2BSKq2L%2FUrlhNoGxv63elQn7W8CmL22xl6yXuGk%2BMz0zdU%2Frk2CIdCeX5%2BYPmg39K5QBYCeSgUyqtD7Qdg%3D%3D&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json")
-    //   .then((res) =>{return res.json()})
-    //   .then((data)=> {
-    //     setDonm(data.response.body.items.item)
-    //   }); 
-    // },[]);
+
+
     
         useEffect(()=>{
       fetch("https://apis.data.go.kr/B551011/GoCamping/basedList?numOfRows=100&pageNo=1&MobileOS=ETC&MobileApp=project&serviceKey=hQ42F%2BSKq2L%2FUrlhNoGxv63elQn7W8CmL22xl6yXuGk%2BMz0zdU%2Frk2CIdCeX5%2BYPmg39K5QBYCeSgUyqtD7Qdg%3D%3D&_type=json")
@@ -122,7 +146,7 @@ function Search() {
         setAllDonm(data.response.body.items.item);
       }); 
     },[]);
-    const [optiondonmSelect, setOptionDonmSelect] = useState("");
+    
     const optionDonm = (e) =>{
         const donmValue = e.target.value
         setOptionDonmSelect(donmValue);
@@ -132,30 +156,31 @@ function Search() {
         }else{
           setIsChoice([0,0])
         } 
+        setUserInput(e.target.value)
       }
     
-      const FilterData = donm && donm.filter(e =>{
-        return donm === "전체" || donm === e.doNm
-       })
+      //   const FilterData = donm && donm.filter(e =>{
+      //   return donm === "전체" || donm === e.doNm
+      //  })
        const Filterdonm = [...new Set(alldonm && alldonm.map(e=>e.doNm).sort())];
   return (
     <>
       <Wrap>
       {/* 모바일 써치+버튼 시작 */}
-        <div className={`z-50 bg-white pt-5 w-full h-[300px] fixed top-0 flex justify-around ${scrollPosition > 500 ? "block" : "hidden"}`}>
-          <div className=" max-w-[70%] h-9 flex justify-between flex-nowrap rounded-lg border items-center lg:basis-3/4 relative" >
-            <div className='basis-3/4 border h-full rounded'>
-              <input type="text" placeholder='검색어를 입력하세요' className='  border-none  w-full h-full'/>
-            </div>
-            <div className='basis-1/4 border h-full rounded'>
-              <button className='border bg-[#98EECC] text-white font-bold rounded text-lg right-0 w-[100%] h-full'>
+        {/* <Mwrap className={scrollPosition > 500 ? ".on" : ""}>
+          <Mwrapper>
+            <MinputBox className='basis-3/4 border h-full rounded'>
+              <input type="text" placeholder='검색어를 입력하세요'/>
+            </MinputBox>
+            <div>
+              <button>
                 <NavLink to='/sdetail'>
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </NavLink>
               </button>
             </div>
-          </div>
-        </div>
+          </Mwrapper>
+        </Mwrap> */}
       {/* 모바일 써치+버튼 끝 */}               
       {/* 유리써치 */}
         <Wrapper>
@@ -180,7 +205,7 @@ function Search() {
               minDate={subDays(new Date(), 0)}
               maxDate={addDays(new Date(), 300)}
               monthsShown={2} />
-            <Input type='text' placeholder='검색어를 입력하세요' onChange={getValue} />
+            <Input type='text' placeholder='검색어를 입력하세요' onChange={optionDonm} />
             <NavLinkWrap>
               <NavLink to='/searchd'>
                 {/* <FontAwesomeIcon icon={faMagnifyingGlass} /> */}
